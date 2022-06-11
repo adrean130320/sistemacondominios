@@ -14,32 +14,48 @@ class UsuarioControlador
     $this->model = new UsuarioModelo();
   }
 
-  public function agregarUsuario()
+  public function insertar()
   {
     if (
-      !empty($_POST["codigo_usuario"]) && !empty($_POST["nombre"]) && !empty($_POST["apellidos"])
-      && !empty($_POST["email"]) && !empty($_POST["numero_documento"]) && !empty($_POST["contrasena"]) && !empty($_POST["rol"])
-    ) {
+      !empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["fecha"])
+      && !empty($_POST["email"]) && !empty($_POST["contrasena"])
+      && !empty($_POST["tipo"]) &&  !empty($_POST["documento"]) &&
+      !empty($_POST["tipoUsuario"])
+      )
+     {
       $contrasena = password_hash($_POST["contrasena"], PASSWORD_DEFAULT);
       $usuario = array(
-        'codigo_usuario' => $_POST["codigo_usuario"],
         'nombre' => $_POST["nombre"],
         'apellidos' => $_POST["apellidos"],
+        'fecha' => $_POST["fecha"],
         'email' => $_POST["email"],
-        'tipoDocumento' => $_POST["tipoDocumento"],
-        'numero_documento' => $_POST["numero_documento"],
-        'contrasena' => $contrasena,
-        'rol' => $_POST["rol"]
+        'contrasena' =>$contrasena,
+        'numero_documento' => $_POST["documento"],
+        'tipo_documento' => $_POST["tipo"],
+        'vivienda' =>  $_POST["vivienda"],
+        'rol'=> $_POST["tipoUsuario"],
       );
-
-
-      if ($this->model->agregarUsuario($usuario) > 0) {
-        header("location:../vistas/registrar.php?msg=registrado");
+      var_dump($_POST);
+      if ($this->model->insertar($usuario) > 0) {
+        setcookie('creada','creada',time()+3,'/');
+        header("location:../vistas/gestionarUsuarios.php");
       } else {
-        header("location:../vistas/registrar.php?msg=existe");
+        setcookie('datosincompletos','datosIncompletos',time()+3,'/');
+        header("location:../vistas/gestionarUsuarios.php");
       }
     } else {
-      header("location:../vistas/registrar.php?msg=incompletos");
+        setcookie('datosincompletos','datosIncompletos',time()+3,'/');
+        header("location:../vistas/gestionarUsuarios.php");
+    }
+  }
+  public function eliminar()
+  {
+    if($this->model->eliminar($_POST['id'])>0){
+      setcookie('eliminada','eliminada',time()+3,'/');
+      header("location:../vistas/gestionarUsuarios.php");
+    }else{
+      setcookie('datosincompletos','datosIncompletos',time()+3,'/');
+      header("location:../vistas/gestionarUsuarios.php");
     }
   }
 
@@ -148,4 +164,5 @@ class UsuarioControlador
       }
     }
   }
+
 }

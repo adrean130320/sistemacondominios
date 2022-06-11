@@ -10,32 +10,21 @@ class UsuarioModelo extends Conexion
   {
   }
 
-  public function agregarUsuario($usuario = array())
+  public function insertar($usuario = array())
   {
     foreach ($usuario as $key=>$datos) {
       $$key=$datos;
       }
-
-      $sql="insert into usuario
-      (codigo_usuario,nombre,apellidos,email,contrasena,
-      tipoDocumento,numero_documento,rol) SELECT
-      :codigo_usuario,:nombre,:apellidos,:email,:contrasena,
-      :tipoDocumento,:numero_documento,:rol
+      $sql="INSERT into Usuarios
+      (nombre, apellido, fecha_nacimiento, email, contrasena, numero_documento, tipo_documento, rol, vivienda) SELECT
+      '$nombre', '$apellidos', '$fecha', '$email', '$contrasena', '$numero_documento', $tipo_documento, $rol, $vivienda
       FROM dual
-      WHERE NOT EXISTS (select * from usuario
-      where codigo_usuario=:codigo_usuario or email=:email or
-      numero_documento=:numero_documento )
+      WHERE NOT EXISTS (select * from Usuarios
+      where (numero_documento= '$numero_documento' or email='$email') &&  rol=2 )
       LIMIT 1
       ";
       $datos=$this->conectar()->prepare($sql);
-      $datos->execute(array(":codigo_usuario"=>$codigo_usuario,
-      ":nombre"=>$nombre,
-      ":apellidos"=>$apellidos,
-      ":email"=>$email,
-      ":contrasena"=>$contrasena,
-      ":tipoDocumento"=>$tipoDocumento,
-      ":numero_documento"=>$numero_documento,
-      "rol"=>$rol));
+      $datos->execute();
       $datos->closeCursor();
       $count= $datos->rowcount();
       $datos=null;
@@ -45,7 +34,12 @@ class UsuarioModelo extends Conexion
   public function listar($numero_documento='')
   {
     if ($numero_documento=='') {
-      $sql="select * from Usuarios";
+      $sql="select td.tipo_documento, u.numero_documento, CONCAT(u.nombre,' ',u.apellido) nombres,
+      u.fecha_nacimiento, u.email , r.rol , v.direccion
+      from Usuarios u
+      join rol r on r.id = u.rol
+      join tipo_documento td on td.id = u.tipo_documento
+      left join vivienda v on v.id = u.vivienda ";
     }else {
       $sql="select * from Usuarios where numero_documento=:numero_documento" ;
    }
@@ -71,27 +65,7 @@ class UsuarioModelo extends Conexion
       $datos=null;
     return $afectadas;
   }
-  public function editarDatos($usuario=array())
-  {
-    foreach ($usuario as $key=>$datos) {
-      $$key=$datos;
-      }
-    $sql="update usuario set nombre=:nombre,
-    apellidos=:apellidos,
-    numero_documento=:numero_documento,
-    tipoDocumento=:tipoDocumento,
-    email=:email
-    where codigo_usuario=:codigo_usuario";
-      $datos=$this->conectar()->prepare($sql);
-    $datos->execute(array(":email"=>$email,
-    ":nombre"=>$nombre,
-    ":apellidos"=>$apellidos,
-    ":numero_documento"=>$numero_documento,
-    ":tipoDocumento"=>$tipoDocumento,
-    ":codigo_usuario"=>$codigo_usuario
-    ));
-    $datos=null;
-  }
+
   public function cambiarContrasena($codigo,$contrasena)
   {
   $sql="update usuario set contrasena=:contrasena where codigo_usuario=:codigo_usuario";
@@ -99,6 +73,17 @@ class UsuarioModelo extends Conexion
 $datos->execute(array(":contrasena"=>$contrasena,
 ":codigo_usuario"=>$codigo));
 $datos=null;
+  }
+
+  public function eliminar($id)
+  {
+    $sql="DELETE from Usuarios
+    where numero_documento=$id";
+    $datos=$this->conectar()->prepare($sql);
+    $datos->execute();
+    $afectadas=$datos->rowCount();
+    $datos=null;
+    return $afectadas;
   }
 
 }

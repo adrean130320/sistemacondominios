@@ -63,7 +63,10 @@ class UsuarioControlador
   {
     return $this->model->listar($codigo);
   }
-
+  public function listarPropietarios()
+  {
+    return $this->model->listarPropietarios();
+  }
   public function recuperarContrasena()
   {
     if (!empty($_POST['codigo']) || !empty($_POST['email'])) {

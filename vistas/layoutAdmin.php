@@ -145,7 +145,7 @@
             </a>
           </li>
           <li>
-            <a href="tables-data.html">
+            <a href="sancionar.php">
               <i class="bi bi-circle"></i><span>Sancionar</span>
             </a>
           </li>

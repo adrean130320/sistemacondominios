@@ -31,6 +31,20 @@ class UsuarioModelo extends Conexion
       return $count;
   }
 
+  public function listarPropietarios()
+  {
+    $sql="SELECT u.id , CONCAT(u.nombre,' ', u.apellido) nombre
+from Usuarios u
+where u.rol = 2";
+$datos=$this->conectar()->prepare($sql);
+$datos->execute();
+while ($filas[]=$datos->fetch(PDO::FETCH_OBJ)) {
+  }
+$datos->closeCursor();
+$datos=null;
+return $filas;
+  }
+
   public function listar($numero_documento='')
   {
     if ($numero_documento=='') {

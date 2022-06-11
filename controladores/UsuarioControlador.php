@@ -80,11 +80,12 @@ class UsuarioControlador
 
   public function iniciarSesion()
   {
-    if (!empty($_POST['codigo']) || !empty($_POST['contrasena'])) {
-      $usuario = $this->listar($_POST['codigo']);
+    if (!empty($_POST['email']) || !empty($_POST['contrasena'])) {
+      $usuario = $this->listar($_POST['email']);
       if (count($usuario) > 1 &&  password_verify($_POST["contrasena"], $usuario[0]->contrasena)) {
+        echo "entro";
         session_start();
-        $_SESSION['usuario'] = $_POST['codigo'];
+        $_SESSION['usuario'] = $_POST['email'];
         $_SESSION['rol'] = $usuario[0]->rol;
         if ($_SESSION['rol'] == "Estudiante" || $_SESSION['rol'] == "Egresado") {
           header("location:../vistas/datosPersonales.php");
@@ -94,12 +95,15 @@ class UsuarioControlador
           }
         }
       } else {
-        header("location:../vistas/iniciar.php?msg=incorrecto");
+        setcookie('erroriniciarsesion','erroriniciarsesion','','/');
+        header("location:../vistas/login.php");
       }
     } else {
-      header("location:../vistas/iniciar.php?msg=incompletos");
+      setcookie('erroriniciarsesion','erroriniciarsesion','','/');
+      header("location:../vistas/login.php");
     }
   }
+
   public function cerrarSesion()
   {
     session_start();

@@ -43,17 +43,16 @@ class UsuarioModelo extends Conexion
       return $count;
   }
 
-  public function listar($codigo_usuario='')
+  public function listar($numero_documento='')
   {
-    if ($codigo_usuario=='') {
-      $sql="select * from usuario";
+    if ($numero_documento=='') {
+      $sql="select * from Usuarios";
     }else {
-      $sql="select * from usuario where codigo_usuario=:codigo_usuario" ;
+      $sql="select * from Usuarios where numero_documento=:numero_documento" ;
    }
     $datos=$this->conectar()->prepare($sql);
-    $datos->execute(array(":codigo_usuario"=>$codigo_usuario));
+    $datos->execute(array(":numero_documento"=>$numero_documento));
     while ($filas[]=$datos->fetch(PDO::FETCH_OBJ)) {
-
       }
     $datos->closeCursor();
     $datos=null;

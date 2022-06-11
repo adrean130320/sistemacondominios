@@ -87,12 +87,16 @@ class UsuarioControlador
         session_start();
         $_SESSION['usuario'] = $_POST['email'];
         $_SESSION['rol'] = $usuario[0]->rol;
-        if ($_SESSION['rol'] == "Estudiante" || $_SESSION['rol'] == "Egresado") {
-          header("location:../vistas/datosPersonales.php");
-        } else {
-          if ($_SESSION['rol'] == "administrador") {
+
+        if ($_SESSION['rol'] == 1) {
+          header("location:../vistas/historialCasas.php");
+        } else if ($_SESSION['rol'] == 2){
+
             header("location:../vistas/historial.php");
-          }
+
+        }else {
+          setcookie('erroriniciarsesion','erroriniciarsesion','','/');
+          header("location:../vistas/login.php");
         }
       } else {
         setcookie('erroriniciarsesion','erroriniciarsesion','','/');

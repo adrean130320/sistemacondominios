@@ -40,7 +40,7 @@ array_pop($tipoUsuarioLista);
   ?>
   <?php if (isset($_COOKIE['actualizada'])) {
   ?>
-    <i class="bi bi-check-circle me-1"></i>Usuario eliminado con exito
+    <i class="bi bi-check-circle me-1"></i>Usuario actualizado con exito
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -247,8 +247,6 @@ array_pop($tipoUsuarioLista);
                           </div>
                         </div>
                       </div>
-
-
 
                     </td>
                   </tr>

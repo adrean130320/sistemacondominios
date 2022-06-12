@@ -18,6 +18,10 @@ class ViviendaControlador
   {
     return $this->model->listar();
   }
+  public function listarResidentes()
+  {
+    return $this->model->listarResidentes();
+  }
 
   public function listarAsignar()
   {

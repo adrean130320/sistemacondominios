@@ -14,6 +14,39 @@ class UsuarioControlador
     $this->model = new UsuarioModelo();
   }
 
+
+  public function insertarResidente()
+  {
+    if (
+      !empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["fecha"])
+      && !empty($_POST["email"])
+      &&  !empty($_POST["documento"])
+    ) {
+
+      $usuario = array(
+        'nombre' => $_POST["nombre"],
+        'apellidos' => $_POST["apellidos"],
+        'fecha' => $_POST["fecha"],
+        'email' => $_POST["email"],
+        'contrasena' => '',
+        'numero_documento' => $_POST["documento"],
+        'tipo_documento' => $_POST["tipo"],
+        'vivienda' =>  $_POST["vivienda"],
+        'rol' => 3,
+      );
+      if ($this->model->insertar($usuario) > 0) {
+        setcookie('creada', 'creada', time() + 3, '/');
+        header("location:../vistas/residentes.php");
+      } else {
+        setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+        header("location:../vistas/residentes.php");
+      }
+    } else {
+      setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+      header("location:../vistas/residentes.php");
+    }
+  }
+
   public function insertar()
   {
     if (
@@ -49,13 +82,26 @@ class UsuarioControlador
   }
   public function eliminar()
   {
+    session_start();
     if ($this->model->eliminar($_POST['id']) > 0) {
       setcookie('eliminada', 'eliminada', time() + 3, '/');
+      if($_SESSION['rol']==1){
       header("location:../vistas/gestionarUsuarios.php");
+      }else{
+        header("location:../vistas/residentes.php");
+      }
     } else {
       setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+      if($_SESSION['rol']==1){
       header("location:../vistas/gestionarUsuarios.php");
+      }else{
+        header("location:../vistas/residentes.php");
+      }
     }
+  }
+  public function listarResidentes($id)
+  {
+    return  $this->model->listarResidentes($id);;
   }
 
   public function listar($codigo = '')
@@ -71,8 +117,6 @@ class UsuarioControlador
     if (!empty($_POST['codigo']) || !empty($_POST['email'])) {
       $new_password = rand(99999, 999999);
       $password_encripted = password_hash($new_password, PASSWORD_DEFAULT);
-
-
       if ($this->model->recuperarContrasena($_POST['codigo'], $password_encripted, $_POST['email']) > 0) {
         $mensaje = "su nueva contraseña es: " . $new_password . " Se recomienda realizar el cambio al ingresar";
         $destinatario = $_POST["email"];
@@ -106,6 +150,8 @@ class UsuarioControlador
         $_SESSION['usuario'] = $_POST['email'];
         $_SESSION['rol'] = $usuario[0]->rol;
         $_SESSION['nombres'] =  $usuario[0]->nombre . ' ' . $usuario[0]->apellido;
+        $_SESSION['vivienda'] = $usuario[0]->vivienda;
+        $_SESSION['id']= $usuario[0]->id;
 
         if ($_SESSION['rol'] == 1) {
           header("location:../vistas/historialCasas.php");
@@ -138,7 +184,7 @@ class UsuarioControlador
     session_start();
     $usuario = $this->listar($_SESSION["usuario"]);
     if (password_verify($_POST['actual'], $usuario[0]->contrasena) && $_POST['nueva'] == $_POST['nueva2']) {
-        $this->model->cambiarContrasena($_SESSION['usuario'], password_hash($_POST['nueva'], PASSWORD_DEFAULT));
+      $this->model->cambiarContrasena($_SESSION['usuario'], password_hash($_POST['nueva'], PASSWORD_DEFAULT));
       if ($_SESSION['rol'] == "1") {
         setcookie('actualizada', 'actualizada', time() + 3, '/');
         header("location:../vistas/cambiarContrasena.php");

@@ -116,11 +116,25 @@ if (isset($_SESSION['nombres'])&&isset($_SESSION['rol'])&&$_SESSION['rol']==2 ) 
                 </a>
             </li>
 
-            <li>
-                <a class="nav-link" href="residentes.php">
-                    <i class="bi bi-shop-window"></i><span>Escenario</span>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-shop-window"></i><span>Escenario</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-            </li>
+                <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="alquiler.php">
+                            <i class="bi bi-circle"></i><span>Solicitar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Historial</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Tables Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">

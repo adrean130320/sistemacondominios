@@ -1,29 +1,21 @@
-
 <?php
 include 'layout.php';
 
 include '../controladores/UsuarioControlador.php';
 $usuario = new UsuarioControlador();
-$usuariosLista = $usuario->listar();
+$usuariosLista = $usuario->listarResidentes($_SESSION['vivienda']);
 array_pop($usuariosLista);
-include '../controladores/ViviendaControlador.php';
-$viviendas = new ViviendaControlador();
-$viviendaLista = $viviendas->listarAsignar();
-array_pop($viviendaLista);
 include '../controladores/DocumentoControlador.php';
 $documento = new DocumentoControlador();
 $documentoLista = $documento->listar();
 array_pop($documentoLista);
-include '../controladores/TipoUsuarioControlador.php';
-$tipoUsuario = new TipoUsuarioControlador();
-$tipoUsuarioLista = $tipoUsuario->listar();
-array_pop($tipoUsuarioLista);
+
 ?>
 
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Gestionar Usuarios</h1>
+        <h1>Gestionar residentes de la vivienda</h1>
     </div><!-- End Page Title -->
     <!-- Button trigger modal -->
 
@@ -31,7 +23,7 @@ array_pop($tipoUsuarioLista);
     <?php if (isset($_COOKIE['eliminada'])) {
     ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-1"></i>Usuario eliminado con exito
+            <i class="bi bi-check-circle me-1"></i>residente eliminado con exito
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php
@@ -41,7 +33,7 @@ array_pop($tipoUsuarioLista);
     ?>
     <?php if (isset($_COOKIE['actualizada'])) {
     ?>
-        <i class="bi bi-check-circle me-1"></i>Usuario eliminado con exito
+        <i class="bi bi-check-circle me-1"></i>Usuario actualizado con exito
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -84,11 +76,11 @@ array_pop($tipoUsuarioLista);
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Añadir Usuario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Añadir residente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="" action="../controladores/router.php?con=UsuarioControlador&&fun=insertar" method="post">
+                    <form class="" action="../controladores/router.php?con=UsuarioControlador&&fun=insertarResidente  " method="post">
                         <div class="row mb-3">
                             <label for="inputEmail3" class=" col-form-label">nombre</label>
                             <div class="col-sm-12">
@@ -116,12 +108,6 @@ array_pop($tipoUsuarioLista);
                                 <input name="email" required type="email" class="form-control" id="inputText">
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-form-label">contraseña</label>
-                            <div class="col-sm-12">
-                                <input name="contrasena" required type="password" class="form-control" id="inputText">
-                            </div>
-                        </div>
 
                         <div class="row mb-3">
                             <label class=" col-form-label">Documento</label>
@@ -138,52 +124,23 @@ array_pop($tipoUsuarioLista);
                                 </select>
                             </div>
                         </div>
+                        <input type="hidden" name="vivienda" value="<?php echo $_SESSION['vivienda'] ?>">
                         <div class="row mb-3">
                             <label for="inputEmail3" class="col-form-label">numero Documento</label>
                             <div class="col-sm-12">
                                 <input name="documento" required type="text" class="form-control" id="inputText">
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label class=" col-form-label">tipo usuario</label>
-                            <div class="col-sm-12">
-                                <select required name="tipoUsuario" class="form-select" aria-label="Default select example">
-                                    <?php foreach ($tipoUsuarioLista as $key) {
-                                        // code...
-                                    ?>
-                                        <option value="<?php echo $key->id ?>"> <?php echo $key->rol ?> </option>
-
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class=" col-form-label">vivienda</label>
-                            <div class="col-sm-12">
-                                <select required name="vivienda" class="form-select" aria-label="Default select example">
-                                    <option value="''"> no asignar </option>
-                                    <?php foreach ($viviendaLista as $key) {
-
-                                    ?>
-                                        <option value='<?php echo $key->id ?>'> <?php echo $key->direccion ?> </option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Canceral</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    </form>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Canceral</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
             </div>
         </div>
     </div>
+    </div>
+
 
 
 
@@ -200,8 +157,6 @@ array_pop($tipoUsuarioLista);
                                     <th scope="col">nombres</th>
                                     <th>fecha nacimiento</th>
                                     <th>email</th>
-                                    <th>tipo usuario</th>
-                                    <th>Vivienda</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -214,12 +169,11 @@ array_pop($tipoUsuarioLista);
                                     <tr>
                                         <th scope="row"> <?php echo $key->tipo_documento ?> </th>
                                         <td> <?php echo $key->numero_documento ?> </td>
-                                        <td> <?php echo $key->nombres ?> </td>
+                                        <td> <?php echo $key->nombre.' '.$key->apellido ?> </td>
                                         <td> <?php echo $key->fecha_nacimiento ?> </td>
                                         <td> <?php echo $key->email ?> </td>
-                                        <td> <?php echo $key->rol ?> </td>
-                                        <td> <?php echo $key->direccion ?> </td>
                                         <td>
+                                            <?php if($key->rol!=2){ ?>
 
                                             <!-- Button trigger modal -->
 
@@ -252,6 +206,11 @@ array_pop($tipoUsuarioLista);
 
 
                                         </td>
+                                        <?php } else{ ?>
+
+                                            <td></td>
+
+                                        <?php }  ?>
                                     </tr>
                                 <?php
                                 }

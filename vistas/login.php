@@ -90,7 +90,7 @@
                       <button class="btn btn-primary w-100" type="submit">Ingresar</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0"> <a href="recuperar.php">Recuperar contraseña</a></p>
+                      <p class="small mb-0"> <a href="recuperarContraseña.php">Recuperar contraseña</a></p>
                     </div>
                   </form>
                 </div>

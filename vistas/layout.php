@@ -78,7 +78,7 @@ if (isset($_SESSION['nombres'])&&isset($_SESSION['rol'])&&$_SESSION['rol']==2 ) 
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="cambiarContrasena.php">
+                            <a class="dropdown-item d-flex align-items-center" href="cambiarContrasenaUser.php">
                                 <i class="bi bi-key-fill"></i>
                                 <span>Cambiar contraseña</span>
                             </a>

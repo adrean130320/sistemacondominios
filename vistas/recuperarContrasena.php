@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Entrar</title>
+    <title>Restablecer contraseña</title>
     <!-- <link rel="stylesheet" href="css/iniciar.css"> -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -49,7 +49,19 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-                            <?php if (isset($_COOKIE['erroriniciarsesion'])) {
+                            <?php if (isset($_COOKIE['creada'])) {
+                            ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>Se ha enviado un email con la nueva contraseña
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            <?php
+
+                            }
+
+                            ?>
+
+                            <?php if (isset($_COOKIE['datosincompletos'])) {
                             ?>
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <i class="bi bi-exclamation-octagon me-1"></i>Datos incorrectos
@@ -57,40 +69,29 @@
                                 </div>
                             <?php
                             }
-                            setcookie('erroriniciarsesion', 'erroriniciarsesion', time() - 1, '/');
                             ?>
-
-                            <div class="d-flex justify-content-center py-4">
-                                <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                    <img src="img/logoufps.png" alt="">
-                                    <span class="d-none d-lg-block">Gestion de condominios</span>
-                                </a>
-                            </div><!-- End Logo -->
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">iniciar sesion</h5>
-                                        <p class="text-center small">ingresa cedula y contraseña</p>
+                                        <h5 class="card-title text-center pb-0 fs-4">Recuperar contraseña</h5>
+                                        <p class="text-center small">ingresa cedula y correo electronico</p>
                                     </div>
-
-                                    <form action="../controladores/router.php?con=UsuarioControlador&fun=iniciarSesion" method="post" class="row g-3 needs-validation">
-
+                                    <form action="../controladores/router.php?con=UsuarioControlador&fun=recuperarContrasena" method="post" class="row g-3 needs-validation">
                                         <div class="col-12">
                                             <label for="yourUsername" class="form-label">cedula</label>
                                             <div class="input-group has-validation">
-                                                <input type="text" name="email" class="form-control" id="yourUsername" required>
+                                                <input type="text" name="cedula" class="form-control" id="yourUsername" required>
                                             </div>
                                         </div>
-
                                         <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Contraseña</label>
-                                            <input type="password" name="contrasena" class="form-control" id="yourPassword" required>
+                                            <label for="yourPassword" class="form-label">correo electronico</label>
+                                            <input type="email" name="email" class="form-control" id="yourPassword" required>
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="submit">Ingresar</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0"> <a href="recuperar.php">Recuperar contraseña</a></p>
+                                            <p class="small mb-0"> <a href="login.php">Iniciar sesion</a></p>
                                         </div>
                                     </form>
                                 </div>

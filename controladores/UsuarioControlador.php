@@ -1,10 +1,8 @@
 <?php
 require_once '../modelos/UsuarioModelo.php';
+require '../vendor/autoload.php';
+use \Mailjet\Resources;
 
-
-/**
- *
- */
 
 class UsuarioControlador
 {
@@ -85,16 +83,16 @@ class UsuarioControlador
     session_start();
     if ($this->model->eliminar($_POST['id']) > 0) {
       setcookie('eliminada', 'eliminada', time() + 3, '/');
-      if($_SESSION['rol']==1){
-      header("location:../vistas/gestionarUsuarios.php");
-      }else{
+      if ($_SESSION['rol'] == 1) {
+        header("location:../vistas/gestionarUsuarios.php");
+      } else {
         header("location:../vistas/residentes.php");
       }
     } else {
       setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
-      if($_SESSION['rol']==1){
-      header("location:../vistas/gestionarUsuarios.php");
-      }else{
+      if ($_SESSION['rol'] == 1) {
+        header("location:../vistas/gestionarUsuarios.php");
+      } else {
         header("location:../vistas/residentes.php");
       }
     }
@@ -114,28 +112,24 @@ class UsuarioControlador
   }
   public function recuperarContrasena()
   {
-    if (!empty($_POST['codigo']) || !empty($_POST['email'])) {
-      $new_password = rand(99999, 999999);
+    if (!empty($_POST['cedula']) || !empty($_POST['email'])) {
+      $new_password = rand(9999999, 99999999);
       $password_encripted = password_hash($new_password, PASSWORD_DEFAULT);
-      if ($this->model->recuperarContrasena($_POST['codigo'], $password_encripted, $_POST['email']) > 0) {
-        $mensaje = "su nueva contraseña es: " . $new_password . " Se recomienda realizar el cambio al ingresar";
-        $destinatario = $_POST["email"];
-        $asunto = "contraseña ingreso premio al merito";
-        $headers = 'From: adrean130320@gmail.com' . "\r\n" .
-          'Reply-To: adrean130320@gmail.com' . "\r\n" .
-          'X-Mailer: PHP/' . phpversion();
+      if ($this->model->recuperarContrasena($_POST['cedula'], $password_encripted, $_POST['email']) > 0) {
+        $asunto="Restablecer contraseña";
+        $mensaje="Su nueva contraseña para acceso al sistema de condominio es $new_password";
+        $this->enviarCorreo($asunto,$mensaje,$_POST['email']);
 
-        $exito = mail($destinatario, $asunto, $mensaje, $headers);
-        if ($exito) {
-          header("location:../vistas/recuperar.php?msg=enviado");
-        } else {
-          header("location:../vistas/recuperar.php?msg=tarde");
-        }
+
+        setcookie('creada', 'creada', time() + 3, '/');
+        header("location:../vistas/recuperarContrasena.php");
       } else {
-        header("location:../vistas/recuperar.php?msg=incorrecto");
+        setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+        header("location:../vistas/recuperarContrasena.php");
       }
     } else {
-      header("location:../vistas/recuperar.php?msg=incompletos");
+      setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+      header("location:../vistas/recuperarContrasena.php");
     }
   }
 
@@ -151,7 +145,7 @@ class UsuarioControlador
         $_SESSION['rol'] = $usuario[0]->rol;
         $_SESSION['nombres'] =  $usuario[0]->nombre . ' ' . $usuario[0]->apellido;
         $_SESSION['vivienda'] = $usuario[0]->vivienda;
-        $_SESSION['id']= $usuario[0]->usuario;
+        $_SESSION['id'] = $usuario[0]->usuario;
         if ($_SESSION['rol'] == 1) {
           header("location:../vistas/historialCasas.php");
         } else if ($_SESSION['rol'] == 2) {
@@ -189,7 +183,7 @@ class UsuarioControlador
         header("location:../vistas/cambiarContrasena.php");
       } else {
         setcookie('actualizada', 'actualizada', time() + 3, '/');
-        header("location:../vistas/cambiarContrasenaAdmin.php");
+        header("location:../vistas/cambiarContrasenaUser.php");
       }
     } else {
       if ($_SESSION['rol'] == 1) {
@@ -197,8 +191,34 @@ class UsuarioControlador
         header("location:../vistas/cambiarContrasena.php");
       } else {
         setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
-        header("location:../vistas/cambiarContrasenaAdmin.php");
+        header("location:../vistas/cambiarContrasenaUser.php");
       }
     }
+  }
+
+  public function enviarCorreo($asunto, $mensaje, $destinatario)
+  {
+
+  $mj = new \Mailjet\Client('9588160c4d1af70c3a75c656a83b1aeb','437347bdb9015fb8198f0edbbb2d2376',true,['version' => 'v3.1']);
+  $body = [
+    'Messages' => [
+      [
+        'From' => [
+          'Email' => "sistemacondominiocwc@outlook.com",
+        ],
+        'To' => [
+          [
+            'Email' => $destinatario,
+          ]
+        ],
+        'Subject' => $asunto,
+        'TextPart' => 'Administracion de condominio',
+        'HTMLPart' => $mensaje,
+        'CustomID' => "AppGettingStartedTest"
+      ]
+    ]
+  ];
+  $response = $mj->post(Resources::$Email, ['body' => $body]);
+  $response->success() && var_dump($response->getData());
   }
 }

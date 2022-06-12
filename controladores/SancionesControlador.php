@@ -1,6 +1,6 @@
 <?php
 require_once '../modelos/SancionesModelo.php';
-
+require_once '../controladores/UsuarioControlador.php';
 
 /**
  *
@@ -23,6 +23,9 @@ class SancionesControlador
   {
     if (!empty($_POST['id']) && !empty($_POST['sancion']) && !empty($_POST['descripcion']) && !empty($_POST['costo'])) {
       if ($this->model->insertar($_POST['id'], $_POST['sancion'], $_POST['descripcion'], $_POST['costo']) > 0) {
+        $asunto='notifiacion de sancion';
+        $mensaje='A sido sancionado por el motivo '.$_POST['sancion'].' por un valor de '.$_POST['costo'];
+        $destinatario="";
         setcookie('creada', 'creada', time() + 3, '/');
         header('location:../vistas/sancionar.php');
       } else {

@@ -80,10 +80,10 @@ where u.rol = 2";
     return $filas;
   }
 
-  public function recuperarContrasena($numero_documento, $contrasena)
+  public function recuperarContrasena($numero_documento, $contrasena, $email)
   {
 
-    $sql = "UPDATE Usuarios set contrasena='$contrasena' where numero_documento=$numero_documento";
+    $sql = "UPDATE Usuarios set contrasena='$contrasena' where numero_documento=$numero_documento and email='$email'";
     $datos = $this->conectar()->prepare($sql);
     $datos->execute();
     $afectadas = $datos->rowCount();

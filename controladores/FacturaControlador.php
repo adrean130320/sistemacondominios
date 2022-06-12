@@ -1,11 +1,8 @@
 <?php
 require_once '../modelos/FacturaModelo.php';
-
-
 /**
  *
  */
-
 class FacturaControlador
 {
     private $model;
@@ -17,9 +14,9 @@ class FacturaControlador
     {
         return $this->model->listar();
     }
-    public function insertar($valor, $descripcion,$usuario,$fecha)
+    public function insertar($valor, $descripcion,$usuario,$fecha,$motivo)
     {
-        $this->model->insertar($valor, $descripcion,$usuario,$fecha);
+       return $this->model->insertar($valor, $descripcion,$usuario,$fecha,$motivo);
     }
     public function actualizar()
     {

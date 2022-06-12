@@ -34,8 +34,25 @@ class UsuarioModelo extends Conexion
   public function listarPropietarios()
   {
     $sql = "SELECT u.id , CONCAT(u.nombre,' ', u.apellido) nombre , u.email
-from Usuarios u
-where u.rol = 2";
+    from Usuarios u
+    where u.rol = 2";
+    $datos = $this->conectar()->prepare($sql);
+    $datos->execute();
+    while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
+    }
+    $datos->closeCursor();
+    $datos = null;
+    return $filas;
+  }
+
+  public function listarId($id)
+  {
+    $sql = "SELECT  u.numero_documento, CONCAT(u.nombre,' ',u.apellido) nombres,
+    u.email , v.direccion
+    from Usuarios u
+    join rol r on r.id = u.rol
+    left join vivienda v on v.id = u.vivienda 
+    where u.id=$id";
     $datos = $this->conectar()->prepare($sql);
     $datos->execute();
     while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {

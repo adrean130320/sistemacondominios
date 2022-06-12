@@ -100,6 +100,11 @@ class UsuarioControlador
     return  $this->model->listarResidentes($id);;
   }
 
+  public function listarId($id)
+  {
+    return  $this->model->listarId($id);;
+  }
+
   public function listar($codigo = '')
   {
     return $this->model->listar($codigo);

@@ -19,6 +19,11 @@ class TipoSancionesControlador
     return $this->model->listar();
   }
 
+  public function listarId($id)
+  {
+    return $this->model->listarId($id);
+  }
+
   public function insertar()
   {
     if (!empty($_POST['razon'])) {

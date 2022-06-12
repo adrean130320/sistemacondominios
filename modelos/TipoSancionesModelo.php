@@ -20,6 +20,18 @@ class TipoSancionesModelo extends Conexion
     return $filas;
   }
 
+  public function listarId($id)
+  {
+    $sql = "SELECT * from tipo_sanciones where id=$id";
+    $datos = $this->conectar()->prepare($sql);
+    $datos->execute();
+    while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
+    }
+    $datos->closeCursor();
+    $datos = null;
+    return $filas;
+  }
+
   public function eliminar($id)
   {
     $sql = "DELETE from tipo_sanciones

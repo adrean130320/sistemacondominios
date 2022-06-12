@@ -19,17 +19,18 @@ class FacturaModelo extends Conexion
         $datos = null;
         return $filas;
     }
-    public function insertar($valor, $descripcion,$usuario,$fecha)
+    public function insertar($valor, $descripcion, $usuario, $fecha, $motivo)
     {
         $sql = "INSERT INTO Factura
-        (valor, descripcion, usuario, fecha)
-        VALUES($valor, '$descripcion', $usuario, '$fecha');
+        (valor, descripcion, usuario, fecha, motivo)
+        VALUES($valor, '$descripcion', $usuario, '$fecha', '$motivo' );
         ";
-        $datos = $this->conectar()->prepare($sql);
-        $datos->execute();
-        $afectadas = $datos->rowCount();
+        $datos = $this->conectar();
+        $resultado = $datos->prepare($sql);
+        $resultado->execute();
+        $id = $datos->lastInsertId();
         $datos = null;
-        return $afectadas;
+        return $id;
     }
     public function actualizar($id, $descripcion)
     {

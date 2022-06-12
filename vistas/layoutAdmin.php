@@ -141,12 +141,7 @@ if (isset($_SESSION['nombres']) &&isset($_SESSION['rol'])&&$_SESSION['rol']==1 )
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="charts-chartjs.html">
-              <i class="bi bi-circle"></i><span>Ver factura</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-apexcharts.html">
-              <i class="bi bi-circle"></i><span>Pagar factura</span>
+              <i class="bi bi-circle"></i><span>Ver facturas</span>
             </a>
           </li>
           <li>

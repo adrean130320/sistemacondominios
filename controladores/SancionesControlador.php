@@ -1,6 +1,7 @@
 <?php
 require_once '../modelos/SancionesModelo.php';
-require_once '../controladores/UsuarioControlador.php';
+require_once '../controladores/FacturaControlador.php';
+
 
 /**
  *
@@ -23,9 +24,8 @@ class SancionesControlador
   {
     if (!empty($_POST['id']) && !empty($_POST['sancion']) && !empty($_POST['descripcion']) && !empty($_POST['costo'])) {
       if ($this->model->insertar($_POST['id'], $_POST['sancion'], $_POST['descripcion'], $_POST['costo']) > 0) {
-        $asunto='notifiacion de sancion';
-        $mensaje='A sido sancionado por el motivo '.$_POST['sancion'].' por un valor de '.$_POST['costo'];
-        $destinatario="";
+        $factura = new FacturaControlador();
+        $factura->insertar( $_POST['costo'], $_POST['sancion'], $_POST['id'],date('Y-m-d'));
         setcookie('creada', 'creada', time() + 3, '/');
         header('location:../vistas/sancionar.php');
       } else {
@@ -43,19 +43,16 @@ class SancionesControlador
       setcookie('eliminada', 'eliminada', time() + 3, '/');
       header("location:../vistas/sancionar.php");
     } else {
-
       setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
       header("location:../vistas/sancionar.php");
     }
   }
-
   public function actualizar()
   {
     if ($this->model->actualizar($_POST['id'], $_POST['sancion'], $_POST['descripcion'], $_POST['valor']) > 0) {
       setcookie('actualizada', 'creada', time() + 3, '/');
       header('location:../vistas/sancionar.php');
     } else {
-
       setcookie('datosincompletos', 'gestionarSanciones', time() + 3, '/');
       header('location:../vistas/sancionar.php');
     }

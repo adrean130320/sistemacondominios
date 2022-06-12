@@ -11,8 +11,6 @@ class UsuarioControlador
   {
     $this->model = new UsuarioModelo();
   }
-
-
   public function insertarResidente()
   {
     if (

@@ -33,7 +33,7 @@ class UsuarioModelo extends Conexion
 
   public function listarPropietarios()
   {
-    $sql = "SELECT u.id , CONCAT(u.nombre,' ', u.apellido) nombre
+    $sql = "SELECT u.id , CONCAT(u.nombre,' ', u.apellido) nombre , u.email
 from Usuarios u
 where u.rol = 2";
     $datos = $this->conectar()->prepare($sql);

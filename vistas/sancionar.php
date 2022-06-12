@@ -110,7 +110,6 @@ array_pop($usuarioList);
                 </select>
               </div>
             </div>
-
             <div class="row mb-3">
               <label for="inputEmail3" class=" col-form-label">Costo sancion</label>
               <div class="col-sm-12">

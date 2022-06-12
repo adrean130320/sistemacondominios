@@ -185,7 +185,7 @@ array_pop($usuarioList);
                                   <div class="col-sm-12">
                                     <select required name="sancion" class="form-select" aria-label="Default select example">
                                       <?php
-                                      
+
                                       foreach ($tipoSancionesList as $key2) {
                                         // code...
                                       ?>
@@ -200,7 +200,7 @@ array_pop($usuarioList);
                                 <div class="row mb-3">
                                   <label for="inputEmail3" class=" col-form-label">Costo sancion</label>
                                   <div class="col-sm-12">
-                                    <input name="valor" value="<?php echo ($key->valor)?>" required type="number" class="form-control" id="inputText">
+                                    <input name="valor" value="<?php echo ($key->valor) ?>" required type="number" class="form-control" id="inputText">
                                   </div>
                                 </div>
                                 <div class="row mb-3">

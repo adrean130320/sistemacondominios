@@ -10,61 +10,61 @@ class ViviendaModelo extends Conexion
   {
   }
 
-public function listar($vivienda="")
-{
-  $sql="SELECT * from vivienda";
-  $datos=$this->conectar()->prepare($sql);
-  $datos->execute();
-  while ($filas[]=$datos->fetch(PDO::FETCH_OBJ)) {
+  public function listar($vivienda = "")
+  {
+    $sql = "SELECT * from vivienda";
+    $datos = $this->conectar()->prepare($sql);
+    $datos->execute();
+    while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
     }
-  $datos->closeCursor();
-  $datos=null;
-  return $filas;
-}
+    $datos->closeCursor();
+    $datos = null;
+    return $filas;
+  }
 
 
-public function listarAsignar($vivienda="")
-{
-  $sql="SELECT * from vivienda
+  public function listarAsignar($vivienda = "")
+  {
+    $sql = "SELECT * from vivienda
   ";
-  $datos=$this->conectar()->prepare($sql);
-  $datos->execute();
-  while ($filas[]=$datos->fetch(PDO::FETCH_OBJ)) {
+    $datos = $this->conectar()->prepare($sql);
+    $datos->execute();
+    while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
     }
-  $datos->closeCursor();
-  $datos=null;
-  return $filas;
-}
+    $datos->closeCursor();
+    $datos = null;
+    return $filas;
+  }
 
-public function insertar($direccion,$plantas,$costo)
-{
-  $sql="INSERT into vivienda
+  public function insertar($direccion, $plantas, $costo)
+  {
+    $sql = "INSERT into vivienda
   (direccion,plantas,costo_mensual) SELECT
   :direccion,:plantas,:costo
   FROM dual
   WHERE NOT EXISTS (select * from vivienda
   where direccion=:direccion)
   LIMIT 1";
-$datos=$this->conectar()->prepare($sql);
-$datos->bindValue(':direccion', $direccion);
-$datos->bindValue(':plantas' ,$plantas);
-$datos->bindValue(':costo' ,$costo);
-$datos->execute();
-$afectadas=$datos->rowCount();
-  $datos=null;
-return $afectadas;
-}
-public function actualizar($direccion,$plantas,$costo)
-{
-  $sql="UPDATE vivienda set plantas=:plantas,costo_mensual=:costo
+    $datos = $this->conectar()->prepare($sql);
+    $datos->bindValue(':direccion', $direccion);
+    $datos->bindValue(':plantas', $plantas);
+    $datos->bindValue(':costo', $costo);
+    $datos->execute();
+    $afectadas = $datos->rowCount();
+    $datos = null;
+    return $afectadas;
+  }
+  public function actualizar($direccion, $plantas, $costo)
+  {
+    $sql = "UPDATE vivienda set plantas=:plantas,costo_mensual=:costo
   where direccion=:direccion";
-  $datos=$this->conectar()->prepare($sql);
-  $datos->bindValue(':direccion', $direccion);
-  $datos->bindValue(':plantas' ,$plantas);
-  $datos->bindValue(':costo' ,$costo);
-  $datos->execute();
-  $afectadas=$datos->rowCount();
-  $datos=null;
-  return $afectadas;
-}
+    $datos = $this->conectar()->prepare($sql);
+    $datos->bindValue(':direccion', $direccion);
+    $datos->bindValue(':plantas', $plantas);
+    $datos->bindValue(':costo', $costo);
+    $datos->execute();
+    $afectadas = $datos->rowCount();
+    $datos = null;
+    return $afectadas;
+  }
 }

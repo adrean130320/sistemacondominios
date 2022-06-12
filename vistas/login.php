@@ -36,6 +36,7 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 </head>
+
 <body>
   <section>
 
@@ -48,16 +49,16 @@
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <?php if(isset($_COOKIE['erroriniciarsesion'])){
-                ?>
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-octagon me-1"></i>Datos incorrectos
-                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            <?php
-          }
-          setcookie('erroriniciarsesion','erroriniciarsesion',time()-1,'/');
-            ?>
+              <?php if (isset($_COOKIE['erroriniciarsesion'])) {
+              ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <i class="bi bi-exclamation-octagon me-1"></i>Datos incorrectos
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php
+              }
+              setcookie('erroriniciarsesion', 'erroriniciarsesion', time() - 1, '/');
+              ?>
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
@@ -89,7 +90,7 @@
                       <button class="btn btn-primary w-100" type="submit">Ingresar</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">  <a href="recuperar.php">Recuperar contraseña</a></p>
+                      <p class="small mb-0"> <a href="recuperar.php">Recuperar contraseña</a></p>
                     </div>
                   </form>
                 </div>

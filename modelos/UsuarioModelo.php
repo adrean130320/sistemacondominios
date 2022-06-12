@@ -66,29 +66,25 @@ where u.rol = 2";
     return $filas;
   }
 
-  public function recuperarContrasena($codigo_usuario, $contrasena, $email)
+  public function recuperarContrasena($numero_documento, $contrasena)
   {
 
-    $sql = "update usuario set contrasena=:contrasena where codigo_usuario=:codigo_usuario and email=:email";
+    $sql = "UPDATE Usuarios set contrasena='$contrasena' where numero_documento=$numero_documento";
     $datos = $this->conectar()->prepare($sql);
-    $datos->bindValue(':codigo_usuario', $codigo_usuario);
-    $datos->bindValue(':contrasena', $contrasena);
-    $datos->bindValue(':email', $email);
     $datos->execute();
     $afectadas = $datos->rowCount();
     $datos = null;
     return $afectadas;
   }
 
-  public function cambiarContrasena($codigo, $contrasena)
+  public function cambiarContrasena($numero_documento, $contrasena)
   {
-    $sql = "update usuario set contrasena=:contrasena where codigo_usuario=:codigo_usuario";
+    $sql = "UPDATE Usuarios set contrasena='$contrasena' where numero_documento=$numero_documento";
     $datos = $this->conectar()->prepare($sql);
-    $datos->execute(array(
-      ":contrasena" => $contrasena,
-      ":codigo_usuario" => $codigo
-    ));
+    $datos->execute();
+    $verificacion=$datos->rowCount();
     $datos = null;
+    return $verificacion;
   }
 
   public function eliminar($id)

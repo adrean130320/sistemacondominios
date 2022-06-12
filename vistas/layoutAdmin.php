@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['nombres'])) {
+if (isset($_SESSION['nombres']) &&isset($_SESSION['rol'])&&$_SESSION['rol']==1 ) {
   $nombre = $_SESSION['nombres'];
 } else {
   header('location:login.php');
@@ -66,14 +66,16 @@ if (isset($_SESSION['nombres'])) {
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
+              <h6><?php
+              echo $nombre;
+              ?></h6>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="">
+              <a class="dropdown-item d-flex align-items-center" href="cambiarContrasena.php">
                 <i class="bi bi-key-fill"></i>
                 <span>Cambiar contraseña</span>
               </a>
@@ -169,7 +171,7 @@ if (isset($_SESSION['nombres'])) {
         </a>
         <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="icons-bootstrap.html">
+            <a href="gestionarEscenario.php">
               <i class="bi bi-circle"></i><span>Gestionar Escenario</span>
             </a>
           </li>

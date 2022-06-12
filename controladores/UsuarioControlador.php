@@ -111,7 +111,7 @@ class UsuarioControlador
           header("location:../vistas/historialCasas.php");
         } else if ($_SESSION['rol'] == 2) {
 
-          header("location:../vistas/historial.php");
+          header("location:../vistas/residentes.php");
         } else {
           setcookie('erroriniciarsesion', 'erroriniciarsesion', '', '/');
           header("location:../vistas/login.php");
@@ -137,18 +137,22 @@ class UsuarioControlador
   {
     session_start();
     $usuario = $this->listar($_SESSION["usuario"]);
-    if (password_verify($_POST['actual'], $usuario[0]->contrasena) && $_POST['nueva1'] == $_POST['nueva2']) {
-      $this->model->cambiarContrasena($_SESSION['usuario'], password_hash($_POST['nueva1'], PASSWORD_DEFAULT));
-      if ($_SESSION['rol'] != "administrador") {
-        header("location:../vistas/cambiarContrasena.php?msg=actualizado");
+    if (password_verify($_POST['actual'], $usuario[0]->contrasena) && $_POST['nueva'] == $_POST['nueva2']) {
+        $this->model->cambiarContrasena($_SESSION['usuario'], password_hash($_POST['nueva'], PASSWORD_DEFAULT));
+      if ($_SESSION['rol'] == "1") {
+        setcookie('actualizada', 'actualizada', time() + 3, '/');
+        header("location:../vistas/cambiarContrasena.php");
       } else {
-        header("location:../vistas/cambiarContrasenaAdmin.php?msg=actualizado");
+        setcookie('actualizada', 'actualizada', time() + 3, '/');
+        header("location:../vistas/cambiarContrasenaAdmin.php");
       }
     } else {
-      if ($_SESSION['rol'] != "administrador") {
-        header("location:../vistas/cambiarContrasena.php?msg=incorrecto");
+      if ($_SESSION['rol'] == 1) {
+        setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+        header("location:../vistas/cambiarContrasena.php");
       } else {
-        header("location:../vistas/cambiarContrasenaAdmin.php?msg=incorrecto");
+        setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+        header("location:../vistas/cambiarContrasenaAdmin.php");
       }
     }
   }

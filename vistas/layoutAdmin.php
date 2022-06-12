@@ -28,16 +28,8 @@ if (isset($_SESSION['nombres']) &&isset($_SESSION['rol'])&&$_SESSION['rol']==1 )
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -176,7 +168,7 @@ if (isset($_SESSION['nombres']) &&isset($_SESSION['rol'])&&$_SESSION['rol']==1 )
             </a>
           </li>
           <li>
-            <a href="icons-remix.html">
+            <a href="historialEscenarios.php">
               <i class="bi bi-circle"></i><span>Historia escenario</span>
             </a>
           </li>

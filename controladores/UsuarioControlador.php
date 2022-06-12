@@ -151,8 +151,7 @@ class UsuarioControlador
         $_SESSION['rol'] = $usuario[0]->rol;
         $_SESSION['nombres'] =  $usuario[0]->nombre . ' ' . $usuario[0]->apellido;
         $_SESSION['vivienda'] = $usuario[0]->vivienda;
-        $_SESSION['id']= $usuario[0]->id;
-
+        $_SESSION['id']= $usuario[0]->usuario;
         if ($_SESSION['rol'] == 1) {
           header("location:../vistas/historialCasas.php");
         } else if ($_SESSION['rol'] == 2) {

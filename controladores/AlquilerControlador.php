@@ -7,7 +7,7 @@ class AlquilerControlador
     private $model;
     function __construct()
     {
-        $this->model = new TipoSancionesModelo();
+        $this->model = new AlquilerModelo();
     }
 
     public function listar($id = '')
@@ -17,27 +17,28 @@ class AlquilerControlador
 
     public function insertar()
     {
-        if (!empty($_POST['razon'])) {
-            if ($this->model->insertar($_POST['razon'], $_POST['descripcion']) > 0) {
+        if (!empty($_POST['fecha'])) {
+            if ($this->model->insertar($_POST['escenario'], $_POST['usuario'], $_POST['fecha']) > 0) {
                 setcookie('creada', 'creada', time() + 3, '/');
-                header('location:../vistas/gestionarSanciones.php');
+                header('location:../vistas/alquiler.php');
             } else {
-                setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
-                header('location:../vistas/gestionarSanciones.php');
+                setcookie('existe', 'existe', time() + 3, '/');
+                header('location:../vistas/alquiler.php');
             }
         } else {
             setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
-            header('location:../vistas/gestionarSanciones.php');
+            header('location:../vistas/alquiler.php');
+
         }
     }
     public function eliminar()
     {
         if ($this->model->eliminar($_POST['id']) > 0) {
             setcookie('eliminada', 'eliminada', time() + 3, '/');
-            header("location:../vistas/gestionarSanciones.php");
+            header("location:../vistas/reservaciones.php");
         } else {
             setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
-            header("location:../vistas/gestionarSanciones.php");
+            header("location:../vistas/reservaciones|.php");
         }
     }
 }

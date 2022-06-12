@@ -10,7 +10,16 @@ class AlquilerModelo extends Conexion
     }
     public function listar($id = '')
     {
-        $sql = "SELECT * from Alquiler";
+        if ($id == '') {
+            $sql = "SELECT a.id , e.nombre , CONCAT(u.nombre,' ',u.apellido) nombres, a.fecha  from alquiler a
+            join Usuarios u on u.id = a.usuario 
+            join escenario e on e.id = a.escenario ";
+        } else {
+            $sql = "SELECT a.id , e.nombre , a.fecha 
+            FROM alquiler a 
+            join escenario e on e.id = a.escenario 
+            where usuario=$id";
+        }
         $datos = $this->conectar()->prepare($sql);
         $datos->execute();
         while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
@@ -20,10 +29,9 @@ class AlquilerModelo extends Conexion
         return $filas;
     }
 
-
     public function eliminar($id)
     {
-        $sql = "DELETE from tipo_sanciones
+        $sql = "DELETE from alquiler
   where id = $id";
         $datos = $this->conectar()->prepare($sql);
         $datos->execute();
@@ -32,14 +40,14 @@ class AlquilerModelo extends Conexion
         return $afectadas;
     }
 
-    public function insertar($razon, $descripcion)
+    public function insertar($escenario, $usuario, $fecha)
     {
-        $sql = "INSERT into tipo_sanciones
-  (razon,descripcion) SELECT
-  '$razon','$descripcion'
+        $sql = "INSERT into alquiler
+  (escenario,usuario,fecha) SELECT
+  $escenario,$usuario,'$fecha'
   FROM dual
-  WHERE NOT EXISTS (select * from tipo_sanciones
-  where razon='$razon')
+  WHERE NOT EXISTS (select * from alquiler
+  where escenario=$escenario and fecha='$fecha')
   LIMIT 1";
         $datos = $this->conectar()->prepare($sql);
         $datos->execute();

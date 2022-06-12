@@ -67,7 +67,7 @@ where u.rol = 2";
       join tipo_documento td on td.id = u.tipo_documento
       left join vivienda v on v.id = u.vivienda ";
     } else {
-      $sql = "select *,v.id vivienda from Usuarios u
+      $sql = "select *,u.id usuario,v.id vivienda from Usuarios u
       left join vivienda v on v.id = u.vivienda
       where numero_documento=:numero_documento";
     }

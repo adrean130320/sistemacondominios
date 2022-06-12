@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION['nombres'])) {
+  $nombre = $_SESSION['nombres'];
+} else {
+  header('location:login.php');
+}
+?>
+
 <html lang="es">
 
 <head>
@@ -37,40 +46,36 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <span class="d-none d-lg-block">Gestion de condominios</span>
+      <span class="d-none d-lg-block">Gestion de condominios</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
-
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li><!-- End Search Icon-->
-
-
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <span class=" d-md-block dropdown-toggle ps-2">
+
+              <?php
+              echo $nombre;
+              ?>
+            </span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-key-fill"></i>
+                <span>Cambiar contraseña</span>
               </a>
             </li>
             <li>
@@ -78,31 +83,15 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
+              <a class="dropdown-item d-flex align-items-center" href="../controladores/router.php?con=UsuarioControlador&&fun=cerrarSesion">
+                <i class="bi bi-box-arrow-in-left"></i>
+                <span>Salir</span>
               </a>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
 
           </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
@@ -136,7 +125,7 @@
       </li><!-- End Components Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-person-plus-fill"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -153,7 +142,7 @@
       </li><!-- End Tables Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Facturas</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-coin"></i><span>Facturas</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -176,7 +165,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Escenario</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-shop-window"></i><span>Escenario</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -191,9 +180,9 @@
           </li>
         </ul>
       </li><!-- End Icons Nav -->
-      <li >
-        <a class="nav-link"   href="gestionarSanciones.php">
-          <i class="bi bi-gem"></i><span>Gestinar sanciones</span>
+      <li>
+        <a class="nav-link" href="gestionarSanciones.php">
+          <i class="bi bi-exclamation-octagon-fill"></i><span>Gestinar sanciones</span>
         </a>
       </li>
     </ul>

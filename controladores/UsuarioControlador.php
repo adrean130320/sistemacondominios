@@ -21,40 +21,39 @@ class UsuarioControlador
       && !empty($_POST["email"]) && !empty($_POST["contrasena"])
       && !empty($_POST["tipo"]) &&  !empty($_POST["documento"]) &&
       !empty($_POST["tipoUsuario"])
-      )
-     {
+    ) {
       $contrasena = password_hash($_POST["contrasena"], PASSWORD_DEFAULT);
       $usuario = array(
         'nombre' => $_POST["nombre"],
         'apellidos' => $_POST["apellidos"],
         'fecha' => $_POST["fecha"],
         'email' => $_POST["email"],
-        'contrasena' =>$contrasena,
+        'contrasena' => $contrasena,
         'numero_documento' => $_POST["documento"],
         'tipo_documento' => $_POST["tipo"],
         'vivienda' =>  $_POST["vivienda"],
-        'rol'=> $_POST["tipoUsuario"],
+        'rol' => $_POST["tipoUsuario"],
       );
       var_dump($_POST);
       if ($this->model->insertar($usuario) > 0) {
-        setcookie('creada','creada',time()+3,'/');
+        setcookie('creada', 'creada', time() + 3, '/');
         header("location:../vistas/gestionarUsuarios.php");
       } else {
-        setcookie('datosincompletos','datosIncompletos',time()+3,'/');
+        setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
         header("location:../vistas/gestionarUsuarios.php");
       }
     } else {
-        setcookie('datosincompletos','datosIncompletos',time()+3,'/');
-        header("location:../vistas/gestionarUsuarios.php");
+      setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
+      header("location:../vistas/gestionarUsuarios.php");
     }
   }
   public function eliminar()
   {
-    if($this->model->eliminar($_POST['id'])>0){
-      setcookie('eliminada','eliminada',time()+3,'/');
+    if ($this->model->eliminar($_POST['id']) > 0) {
+      setcookie('eliminada', 'eliminada', time() + 3, '/');
       header("location:../vistas/gestionarUsuarios.php");
-    }else{
-      setcookie('datosincompletos','datosIncompletos',time()+3,'/');
+    } else {
+      setcookie('datosincompletos', 'datosIncompletos', time() + 3, '/');
       header("location:../vistas/gestionarUsuarios.php");
     }
   }
@@ -106,23 +105,23 @@ class UsuarioControlador
         session_start();
         $_SESSION['usuario'] = $_POST['email'];
         $_SESSION['rol'] = $usuario[0]->rol;
+        $_SESSION['nombres'] =  $usuario[0]->nombre . ' ' . $usuario[0]->apellido;
 
         if ($_SESSION['rol'] == 1) {
           header("location:../vistas/historialCasas.php");
-        } else if ($_SESSION['rol'] == 2){
+        } else if ($_SESSION['rol'] == 2) {
 
-            header("location:../vistas/historial.php");
-
-        }else {
-          setcookie('erroriniciarsesion','erroriniciarsesion','','/');
+          header("location:../vistas/historial.php");
+        } else {
+          setcookie('erroriniciarsesion', 'erroriniciarsesion', '', '/');
           header("location:../vistas/login.php");
         }
       } else {
-        setcookie('erroriniciarsesion','erroriniciarsesion','','/');
+        setcookie('erroriniciarsesion', 'erroriniciarsesion', '', '/');
         header("location:../vistas/login.php");
       }
     } else {
-      setcookie('erroriniciarsesion','erroriniciarsesion','','/');
+      setcookie('erroriniciarsesion', 'erroriniciarsesion', '', '/');
       header("location:../vistas/login.php");
     }
   }
@@ -130,24 +129,10 @@ class UsuarioControlador
   public function cerrarSesion()
   {
     session_start();
-    if (isset($_SESSION['usuario'])) {
-      session_destroy();
-    }
+    session_destroy();
     header("location:../index.php");
   }
-  public function editarDatos()
-  {
-    $editar = array(
-      'codigo_usuario' => $_POST['codigo_usuario'],
-      'nombre' => $_POST['nombre'],
-      'apellidos' => $_POST['apellidos'],
-      'email' => $_POST['email'],
-      'numero_documento' => $_POST['numero_documento'],
-      'tipoDocumento' => $_POST['tipoDocumento']
-    );
-    $this->model->editarDatos($editar);
-    header("location:../vistas/datosPersonales.php?msg=actualizado");
-  }
+
   public function cambiarContrasena()
   {
     session_start();
@@ -167,5 +152,4 @@ class UsuarioControlador
       }
     }
   }
-
 }

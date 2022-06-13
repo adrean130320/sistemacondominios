@@ -140,13 +140,18 @@ if (isset($_SESSION['nombres']) &&isset($_SESSION['rol'])&&$_SESSION['rol']==1 )
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="charts-chartjs.html">
+            <a href="facturas.php">
               <i class="bi bi-circle"></i><span>Ver facturas</span>
             </a>
           </li>
           <li>
-            <a href="charts-echarts.html">
+            <a href="enviarFacturas.php">
               <i class="bi bi-circle"></i><span>Enviar facturas</span>
+            </a>
+          </li>
+          <li>
+            <a href="historialFacturas.php">
+              <i class="bi bi-circle"></i><span>historial</span>
             </a>
           </li>
         </ul>

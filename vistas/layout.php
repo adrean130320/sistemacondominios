@@ -142,19 +142,16 @@ if (isset($_SESSION['nombres'])&&isset($_SESSION['rol'])&&$_SESSION['rol']==2 ) 
                 </a>
                 <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="gestionarUsuarios.php">
+                        <a href="pendientes.php">
                             <i class="bi bi-circle"></i><span>Pendientes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="sancionar.php">
+                        <a href="historialPagos.php">
                             <i class="bi bi-circle"></i><span>Historial</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Tables Nav -->
-
-
         </ul>
-
     </aside>

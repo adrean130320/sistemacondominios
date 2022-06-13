@@ -8,9 +8,20 @@ class FacturaModelo extends Conexion
     function __construct()
     {
     }
-    public function listar()
+    public function listar($id = '')
     {
-        $sql = "SELECT * from tipo_sanciones";
+        if ($id == '') {
+            $sql = "SELECT f.*,concat(u.nombre,' ',u.apellido) nombres
+        from Factura f 
+        join Usuarios u on f.usuario = u.id 
+        where fecha_pago is null";
+        } else {
+            $sql = "SELECT f.*
+        from Factura f 
+        where usuario=$id
+        and  fecha_pago is null
+        ";
+        }
         $datos = $this->conectar()->prepare($sql);
         $datos->execute();
         while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
@@ -19,6 +30,30 @@ class FacturaModelo extends Conexion
         $datos = null;
         return $filas;
     }
+
+    public function listarPagos($id = '')
+    {
+        if ($id == '') {
+            $sql = "SELECT f.*,concat(u.nombre,' ',u.apellido) nombres
+        from Factura f 
+        join Usuarios u on f.usuario = u.id 
+        where fecha_pago is not null";
+        } else {
+            $sql = "SELECT f.*
+        from Factura f 
+        where usuario=$id
+        and  fecha_pago is not null
+        ";
+        }
+        $datos = $this->conectar()->prepare($sql);
+        $datos->execute();
+        while ($filas[] = $datos->fetch(PDO::FETCH_OBJ)) {
+        }
+        $datos->closeCursor();
+        $datos = null;
+        return $filas;
+    }
+
     public function insertar($valor, $descripcion, $usuario, $fecha, $motivo)
     {
         $sql = "INSERT INTO Factura
@@ -32,9 +67,9 @@ class FacturaModelo extends Conexion
         $datos = null;
         return $id;
     }
-    public function actualizar($id, $descripcion)
+    public function pagar($id, $fecha)
     {
-        $sql = "UPDATE tipo_sanciones set descripcion='$descripcion'
+        $sql = "UPDATE Factura set fecha_pago='$fecha'
         where id=$id";
         $datos = $this->conectar()->prepare($sql);
         $datos->execute();

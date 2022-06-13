@@ -56,7 +56,7 @@ class Factura
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->setY(30);
         $pdf->setX(135);
-        $pdf->Cell(5, $textypos, "FACTURA #12345");
+        $pdf->Cell(5, $textypos, "FACTURA #$id");
         $pdf->SetFont('Arial', '', 10);
         $pdf->setY(35);
         $pdf->setX(135);
